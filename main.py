@@ -18,7 +18,20 @@ html_form = """
 async def create_upload_file(file: UploadFile = File(...)):
     contents = await file.read()
     df = pd.read_csv(BytesIO(contents))
-    return {"filename": file.filename, "rows": len(df)}
+    
+    #Arreglo que almacenara los datos
+    informacion_almacenados = []
+    #For que recorre el indice y la fila.
+    for indice, fila in df.iterrows():
+        monto = fila["Monto"]
+        ingreso = fila["Ingreso"]
+        fecha = fila["Fecha"]
+        tipo_ingreso = fila["Tipo Ingreso"]
+
+        #abre el arreglo y mete los objetos de datos
+        informacion_almacenados.append({"indice":indice, "monto":monto, "ingreso":ingreso, "fecha":fecha, "tipo_ingreso":tipo_ingreso})
+    
+    return {"filename": file.filename, "rows": len(df), "info": informacion_almacenados}
 
 @app.get("/form/")
 async def form_post():
