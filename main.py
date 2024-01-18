@@ -6,13 +6,13 @@ from io import BytesIO
 app = FastAPI()
 
 # HTML que se muestra
-html_form = """
-<form method="post" enctype="multipart/form-data" action="/uploadfile/">
-    <label for="file">Subir CSV: </label>
-    <input type="file" name="file" accept=".csv">
-    <input type="submit">
-</form>
-"""
+# html_form = """
+# <form method="post" enctype="multipart/form-data" action="/uploadfile/">
+#     <label for="file">Subir CSV: </label>
+#     <input type="file" name="file" accept=".csv">
+#     <input type="submit">
+# </form>
+# """
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
@@ -33,6 +33,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     
     return {"filename": file.filename, "rows": len(df), "info": informacion_almacenados}
 
-@app.get("/form/")
-async def form_post():
-    return HTMLResponse(content=html_form, status_code=200)
+#verificar que recibo la info
+# @app.get("/form/")
+# async def form_post():
+#     return HTMLResponse(content=html_form, status_code=200)
